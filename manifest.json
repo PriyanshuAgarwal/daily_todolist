@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "Daily TODO Checklist",
+    "version": "1.0",
+    "description": "Simple TODO list for daily tasks",
+
+    "icons": {
+        "16": "img/icon_16x16.png",
+        "48": "img/icon_48x48.png"
+    },
+    "browser_action": {
+        "default_icon": {
+          "16": "img/icon_16x16.png"
+        },
+        "default_popup": "public/html/popup.html"
+      }
+}   
