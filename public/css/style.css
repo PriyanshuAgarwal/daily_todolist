@@ -1,0 +1,10 @@
+header {
+    background-color: red;
+    width: 95%;
+    height: 50px;
+}
+
+html, body {
+    width: 300px;
+    height: 300px;
+}
