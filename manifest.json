@@ -12,6 +12,6 @@
         "default_icon": {
           "16": "img/icon_16x16.png"
         },
-        "default_popup": "public/html/popup.html"
+        "default_popup": "html/popup.html"
       }
 }   
