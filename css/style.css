@@ -102,6 +102,19 @@ ul li.checked::before {
     width: 7px;
 }
 
+ul li:not(.checked)::before {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border-color: #999999;
+    border-style: solid;
+    border-width: 2px;
+    top: 14px;
+    left: 16px;
+    height: 13px;
+    width: 13px;
+}
+
 .list-container {
     margin-bottom: 20px;
     overflow-y: scroll;
