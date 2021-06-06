@@ -3,16 +3,28 @@
 	<title>Daily r List</title>
 	<link rel="stylesheet" href="../css/style.css" />
 	<link rel="stylesheet" href="../css/dragula.min.css">
+	<!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 </head>
 <body>
-	<header>
-		<h1>daily tasks</h1>
-	</header>
-	<div id="single1" class="container">
+	<div class="header">
+		<h2>My To Do List</h2>
+		<div class="task-input-ctn">
+			<input type="text" id="myInput" placeholder="Title...">
+			<span id="add-btn" class="addBtn">Add</span>
+		</div>
+	</div>
+
+
+	<div class="list-container">
+		<ul id="task-list">
+			<li>Hit the gym</li>
+  			<li class="checked">Pay bills</li>
+		</ul>
 	
 	</div>
 
-	<script src="../js/dragula.min.js"></script>
+	<!--<script src="../js/dragula.min.js"></script> -->
 	<script src="../js/popup.js" type="text/javascript"></script>
 	<script src="../js/index.js"></script>
 	
