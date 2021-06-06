@@ -1,11 +1,3 @@
-let containerArray = [1, 2, 3, 4];
-
-const html = containerArray.map(item => {
-   return `<div class="item-list">
-       conatiner ${item}
-    </div>`;
-});
-
 document.getElementById("add-btn").addEventListener("click", newElement);
 
 // Add a "checked" symbol when clicking on a list item
@@ -22,6 +14,7 @@ function newElement() {
    var inputValue = document.getElementById("myInput").value;
    var t = document.createTextNode(inputValue);
    li.appendChild(t);
+
    if (inputValue === '') {
       alert("You must write something!");
    } else {
@@ -35,13 +28,18 @@ function newElement() {
    span.appendChild(txt);
    li.appendChild(span);
 
-   for (i = 0; i < close.length; i++) {
-      close[i].onclick = function () {
-         var div = this.parentElement;
-         div.style.display = "none";
-      }
-   }
+   span.onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
 }
-//document.getElementById("ctn-list").innerHTML = html.join('');
 
-//dragula([single1]);
+// Click on a close button to hide the current list item
+let close = document.getElementsByClassName("close");
+
+for (let i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
