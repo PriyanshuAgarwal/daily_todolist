@@ -1,5 +1,7 @@
 document.getElementById("add-btn").addEventListener("click", newElement);
 
+let tasks = [];
+
 // Add a "checked" symbol when clicking on a list item
 var list = document.querySelector('ul');
 list.addEventListener('click', function (ev) {
@@ -34,12 +36,6 @@ function newElement() {
     }
 }
 
-// Click on a close button to hide the current list item
-let close = document.getElementsByClassName("close");
+chrome.storage.sync.get("tasks", function(tasks) {
 
-for (let i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
+})
