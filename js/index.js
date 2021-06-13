@@ -1,4 +1,6 @@
-document.getElementById("add-btn").addEventListener("click", newElement);
+
+getStorage();
+document.getElementById("add-btn").addEventListener("click", addNewTask);
 
 let tasks = [];
 
@@ -10,32 +12,60 @@ list.addEventListener('click', function (ev) {
    }
 }, false);
 
+function addNewTask() {
+   let inputValue = document.getElementById("myInput").value;
+   if (inputValue === '') 
+      alert("You must write something!");
+   addNewTaskNode(inputValue);
+   addToTaskList(inputValue);
+   document.getElementById("myInput").value = "";
+}
+
 // Create a new list item when clicking on the "Add" button
-function newElement() {
-   var li = document.createElement("li");
-   var inputValue = document.getElementById("myInput").value;
-   var t = document.createTextNode(inputValue);
+function addNewTaskNode(inputValue) {
+   let li = document.createElement("li"),
+   t = document.createTextNode(inputValue);
    li.appendChild(t);
 
-   if (inputValue === '') {
-      alert("You must write something!");
-   } else {
-      document.getElementById("task-list").appendChild(li);
-   }
-   document.getElementById("myInput").value = "";
-
-   var span = document.createElement("SPAN");
-   var txt = document.createTextNode("\u00D7");
+   document.getElementById("task-list").appendChild(li);
+ 
+   let span = document.createElement("SPAN"),
+   txt = document.createTextNode("\u00D7");
    span.className = "close";
    span.appendChild(txt);
    li.appendChild(span);
 
    span.onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
+      let div = this.parentElement;
+      deleteNode(div.innerText);
     }
 }
 
-chrome.storage.sync.get("tasks", function(tasks) {
+function deleteNode(taskValue) {
+   let value = taskValue.split("\n")[0];
+   tasks = tasks.filter(task => task.name != value);
+   document.getElementById("task-list").innerHTML = '';
+   renderList(tasks);
+}
 
-})
+function renderList(tasks) {
+   for (let i=0; i< tasks.length; i++ ){
+      addNewTaskNode(tasks[i].name);
+   }
+}
+
+function addToTaskList(taskValue) {
+   tasks.push({name: taskValue});
+   setStorage();
+}
+
+function setStorage() {
+   chrome.storage.sync.set({"tasks": tasks})
+}
+
+function getStorage() {
+   chrome.storage.sync.get("tasks", (tasks) => {
+      renderList(tasks["tasks"]);
+   })
+}
+
