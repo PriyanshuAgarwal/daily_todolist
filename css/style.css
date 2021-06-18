@@ -147,10 +147,8 @@ ul li:not(.checked)::before {
     cursor: pointer;
     box-shadow: 0 0 45px 0 rgb(0 0 0 / 45%);
     background-color: rgba(255,255,255,.25);
-}
-
-
-.footer span:hover {
     text-decoration: underline;
     color: #f44336;
+    text-decoration: underline;
 }
+
