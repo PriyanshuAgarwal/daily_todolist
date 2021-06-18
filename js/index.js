@@ -4,7 +4,7 @@ addBtn.addEventListener("click", addNewTask);
 addBtn.classList.add("disabled");
 document.getElementById("text-input").addEventListener("keyup", keyUp);
 
-let tasks = [];
+let tasksList = [];
 let firstItemAdded = false;
 
 function firstTimeLoad() {
@@ -35,7 +35,7 @@ list.addEventListener('click', function (ev) {
 }, false);
 
 function isDuplicate(inputValue) {
-  let index = tasks.findIndex(task => task.name === inputValue);
+  let index = tasksList.findIndex(task => task.name === inputValue);
   return(index == -1 ?  false: true);
 }
 
@@ -45,7 +45,6 @@ function addNewTask() {
 
    addNewTaskNode(inputValue, true);
    addToTaskList(inputValue);
-   firstItemAdded = true;
    document.getElementById("text-input").value = "";
    addBtn.classList.add("disabled");
 }
@@ -76,10 +75,10 @@ function addNewTaskNode(inputValue, setFocus) {
 
 function deleteNode(taskValue) {
    let value = taskValue.split("\n")[0];
-   tasks = tasks.filter(task => task.name != value);
+   tasksList = tasksList.filter(task => task.name != value);
    document.getElementById("task-list").innerHTML = '';
-   renderList(tasks);
-   setStorage(tasks);
+   renderList(tasksList);
+   setStorage(tasksList);
 }
 
 function renderList(tasks) {
@@ -89,24 +88,23 @@ function renderList(tasks) {
 }
 
 function addToTaskList(taskValue) {
-   tasks.push({name: taskValue});
-   setStorage(tasks);
+   tasksList.push({name: taskValue});
+   setStorage(tasksList);
 }
 
 
-function setStorage(tasks) {
-   chrome.storage.sync.set({"tasks": tasks})
+function setStorage(tasksList) {
+   chrome.storage.sync.set({"tasks": tasksList})
 }
 
 //chrome.storage.sync.clear();
 function getStorage() {
    chrome.storage.sync.get("tasks", (tasks) => {
       if (Object.keys(tasks).length !== 0) {
-         tasks = tasks["tasks"];
-         //alert(tasks);
+         tasksList = tasks["tasks"];
          renderList(tasks["tasks"]);
       } else {
-        // firstTimeLoad();
+         // TODO - render inital sample item
       }
       
    })
