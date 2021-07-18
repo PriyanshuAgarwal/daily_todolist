@@ -1,112 +1,89 @@
-getStorage();
-let addBtn = document.getElementById("add-btn");
-addBtn.addEventListener("click", addNewTask);
-addBtn.classList.add("disabled");
-document.getElementById("text-input").addEventListener("keyup", keyUp);
+// Global variables
+let addBtn = document.getElementById("add-btn"),
+    textInput = document.getElementById("text-input"),
+    tasksList = [];
 
-let tasksList = [];
-let firstItemAdded = false;
+init();
 
-function firstTimeLoad() {
-   let sampleTasks = [{"name": "Hit the gym"}, {"name": "Pay electricity bills"}];
-   renderList(sampleTasks);
+function init() {
+    let list = document.querySelector('ul');
+
+    textInput.addEventListener("keyup", keyUp);
+    textInput.setAttribute("autocomplete", "off");
+    addBtn.classList.add("disabled");
+    addBtn.addEventListener("click", addNewTask);
+    list.addEventListener('click', clicklistItem , false);
+
+    moment.tz.setDefault("Asia/Calcutta");
 }
-
 
 function keyUp(ele) {
-   let inputValue = document.getElementById("text-input").value;
-   if (inputValue.length === 0 || !inputValue.trim()) {
-      addBtn.classList.add("disabled");
-      return;
-   }
-
-   addBtn.classList.remove("disabled");
-   if (ele.keyCode == 13) {
-      addNewTask();
-   }
-}
-
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function (ev) {
-   if (ev.target.tagName === 'LI') {
-      ev.target.classList.toggle('checked');
-   }
-}, false);
-
-function isDuplicate(inputValue) {
-  let index = tasksList.findIndex(task => task.name === inputValue);
-  return(index == -1 ?  false: true);
-}
-
-function addNewTask() {
-   let inputValue = document.getElementById("text-input").value;
-   if (inputValue.length === 0 || !inputValue.trim())  return;
-
-   addNewTaskNode(inputValue, true);
-   addToTaskList(inputValue);
-   document.getElementById("text-input").value = "";
-   addBtn.classList.add("disabled");
-}
-
-// Create a new list item when clicking on the "Add" button
-function addNewTaskNode(inputValue, setFocus) {
-   let li = document.createElement("li"),
-   t = document.createTextNode(inputValue);
-   li.appendChild(t);
-   document.getElementById("task-list").appendChild(li);
+    let inputValue = textInput.value;
+    if (inputValue.length === 0 || !inputValue.trim()) {
+       addBtn.classList.add("disabled");
+       return;
+    }
  
-   let span = document.createElement("SPAN"),
-   txt = document.createTextNode("\u00D7");
-   span.className = "close";
-   span.appendChild(txt);
-   li.appendChild(span);
+    addBtn.classList.remove("disabled");
+    if (ele.keyCode == 13) {
+       addNewTask(inputValue);
+    }
+ }
 
-   if (setFocus) {
-      let objDiv = document.getElementById("list-container");
-      objDiv.scrollTop = objDiv.scrollHeight;
+ function addNewTask(inputValue) {
+    let inputObj = createNewTaskByID(inputValue);
+    addNewTaskNode(inputObj, true);
+    addToTaskList(inputObj);
+    textInput.value = "";
+    addBtn.classList.add("disabled");
+ }
+
+ // Create a new list item when clicking on the "Add" button
+function addNewTaskNode(inputObj, setFocus) {
+    let li = document.createElement("li"),
+    textSpan = document.createElement("SPAN"),
+    txt = document.createTextNode(inputObj.value);
+
+    textSpan.appendChild(txt);
+    li.appendChild(textSpan);
+    document.getElementById("task-list").appendChild(li);
+  
+    let closeSpan = document.createElement("SPAN"),
+    closetxt = document.createTextNode("\u00D7");
+    closeSpan.className = "close";
+    closeSpan.appendChild(closetxt);
+    li.appendChild(closeSpan);
+    li.id = inputObj.id;
+ 
+    if (setFocus) {
+       let objDiv = document.getElementById("list-container");
+       objDiv.scrollTop = objDiv.scrollHeight;
+    }
+ 
+    closeSpan.onclick = function() {
+       let div = this.parentElement;
+       deleteNode(div.innerText);
+    }
+ }
+
+ function clicklistItem(ev) {
+    if (ev.target.tagName === 'LI') {
+       console.log(ev.target)
+       ev.target.classList.toggle('checked');
+
+    }
+ }
+
+ function createNewTaskByID(taskValue) {
+    return {
+      "id": moment().format("YYYY-MM-DD HH:mm:ss") + "/" + taskValue,
+      "value": taskValue,
+      "completed": false
    }
-
-   span.onclick = function() {
-      let div = this.parentElement;
-      deleteNode(div.innerText);
-   }
 }
 
-function deleteNode(taskValue) {
-   let value = taskValue.split("\n")[0];
-   tasksList = tasksList.filter(task => task.name != value);
-   document.getElementById("task-list").innerHTML = '';
-   renderList(tasksList);
-   setStorage(tasksList);
-}
-
-function renderList(tasks) {
-   for (let i=0; i< tasks.length; i++ ){
-      addNewTaskNode(tasks[i].name);
-   }
-}
-
-function addToTaskList(taskValue) {
-   tasksList.push({name: taskValue});
-   setStorage(tasksList);
-}
-
-
-function setStorage(tasksList) {
-   chrome.storage.sync.set({"tasks": tasksList})
-}
-
-//chrome.storage.sync.clear();
-function getStorage() {
-   chrome.storage.sync.get("tasks", (tasks) => {
-      if (Object.keys(tasks).length !== 0) {
-         tasksList = tasks["tasks"];
-         renderList(tasks["tasks"]);
-      } else {
-         // TODO - render inital sample item
-      }
-      
-   })
-}
-
+function addToTaskList(taskObj) {
+    tasksList.push(taskObj);
+    console.log(tasksList);
+    //setStorage(tasksList);
+ }

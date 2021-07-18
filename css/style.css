@@ -11,6 +11,15 @@ body {
     /*background-color: #ab5779;    */
 }
 
+.completed, .overdue {
+    background-color: #d9d9d9;
+}
+
+.completed h3, .overdue h3{
+    padding: 10px;
+    font-family: Heebo, Helvetica, Arial, sans-serif;
+}
+
 .disabled {
     color: rgba(16,16,16,0.3) !important;
     background-color: rgba(239,239,239,0.3) !important;

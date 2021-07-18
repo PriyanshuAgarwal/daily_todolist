@@ -10,22 +10,36 @@
 	<div class="header">
 		<h2> <img width="175" src="../img/large_dayticker.png" /></h2>
 		<div class="task-input-ctn">
-			<input type="text" autocomplete="off" id="text-input" placeholder="What you want to do today?">
+			<input type="text" id="text-input" placeholder="What you want to do today?">
 			<span tabindex="0" id="add-btn"  class="add-btn">Add</span>
 		</div>
 	</div>
 
 	<div class="list-container" id="list-container">
-		<ul id="task-list">
-		</ul>
+		<div class="todo">
+			<ul id="task-list">
+			</ul>
+		</div>
+		<div class="completed">
+			<h3>Completed</h3>
+			<ul id="task-list">
+			</ul>
+		</div>
+		<div class="overdue">
+			<h3>Overdue</h3>
+			<ul id="task-list">
+			</ul>
+		</div>
 	</div>
+
 	<div class="footer">
 		<span>Do you like DayTicker? <strong>Support Development & Donate.</strong>  Thanks!</span>
 	</div>
 
 	<script src="../js/popup.js" type="text/javascript"></script>
+	<script src="../js/moment.js"></script>
+	<script src="../js/moment-timezone-with-data.js"></script>
 	<script src="../js/index.js"></script>
-
 </body>
 
 </html>
