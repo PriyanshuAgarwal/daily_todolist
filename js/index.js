@@ -11,7 +11,7 @@ function init() {
     addBtn.classList.add("disabled");
     addBtn.addEventListener("click", addNewTask);
     initListclickEvent();
-
+    getStorage();
     moment.tz.setDefault("Asia/Calcutta");
 }
 
@@ -111,6 +111,7 @@ function addNewTaskNode(inputObj, section, setFocus) {
      for (let i=0; i< completedlist.length; i++ ) {
         addNewTaskNode(completedlist[i], "completed-task-list", false);
      }
+     setStorage();
  }
 
  function getTaskByID(id) {
@@ -127,6 +128,18 @@ function addNewTaskNode(inputObj, section, setFocus) {
 
 function addToTaskList(taskObj) {
     tasksList.push(taskObj);
-    //console.log(tasksList);
-    //setStorage(tasksList);
+    setStorage();
  }
+
+ function setStorage() {
+    chrome.storage.sync.set({"tasks": tasksList})
+}
+
+function getStorage() {
+    chrome.storage.sync.get("tasks", (tasks) => {
+        if (Object.keys(tasks).length !== 0) {
+            tasksList = tasks["tasks"];
+            renderList();
+        }
+    })
+}
