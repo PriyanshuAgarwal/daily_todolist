@@ -28,15 +28,14 @@ function keyUp(ele) {
        addBtn.classList.add("disabled");
        return;
     }
- 
     addBtn.classList.remove("disabled");
-    if (ele.keyCode == 13) {
+    if (ele.keyCode == 13)
        addNewTask(inputValue);
-    }
  }
 
- function addNewTask(inputValue) {
-    let inputObj = createNewTaskByID(inputValue);
+ function addNewTask() {
+    let inputValue = textInput.value,
+    inputObj = createNewTaskByID(inputValue);
     addNewTaskNode(inputObj, "todo-task-list", true);
     addToTaskList(inputObj);
     textInput.value = "";
@@ -68,9 +67,15 @@ function addNewTaskNode(inputObj, section, setFocus) {
     }
  
     closeSpan.onclick = function() {
-       let div = this.parentElement;
-       deleteNode(div.innerText);
+        let div = this.parentElement;
+        if (div)
+            deleteNode(div.getAttribute("id"));
     }
+ }
+
+ function deleteNode(taskID) {
+    tasksList = tasksList.filter(task => task.id != taskID);
+    renderList();
  }
 
  function clicklistItem(ev) {

@@ -11,12 +11,12 @@ body {
     /*background-color: #ab5779;    */
 }
 
-.completed, .overdue {
-    background-color: #f6594cc7;
-}
-
 .hidden {
     display: none;
+}
+
+#todo-task-list {
+    margin-top: 10px;
 }
 
 .completed h3, .overdue h3{
@@ -24,6 +24,8 @@ body {
     font-family: Heebo, Helvetica, Arial, sans-serif;
     margin-block-start: 0px;
     margin-block-end: 0px;
+    margin: 10px 0px;
+    background-color: #f6594cc7;
 }
 
 .disabled {
